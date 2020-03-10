@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <chrono>
+#include <ctime>
 
 void fillRandom(int *numeros, size_t n){
 	for (size_t i = 0; i < n; i++){
@@ -28,7 +29,7 @@ void printArray(int *numeros, size_t n){
 	std::cout << std::endl;
 }
 
-int findSum(int *numeros, size_t n, size_t t){
+int findSum(int *numeros, size_t n, int t){
 	size_t left = 0, right = n - 1;
 
 	if (numeros[0] > t)
@@ -45,13 +46,13 @@ int findSum(int *numeros, size_t n, size_t t){
 
 
 
-int slowFindSum(int *numeros, size_t n, size_t t){
+int slowFindSum(int *numeros, size_t n, int t){
 	for (size_t i = 0; i < n; i++){
 		for (size_t j = 0; j < n; j++){
 			if (i == j) continue;
-			if (a[i] > t || a[j] > t) continue;
+			if (numeros[i] > t || numeros[j] > t) continue;
 
-			else if (a[i] + a[j] == t){
+			else if (numeros[i] + numeros[j] == t){
 				return 1;
 				break;
 			}
@@ -61,7 +62,7 @@ int slowFindSum(int *numeros, size_t n, size_t t){
 	return 0;
 }
 
-int find_t(int *numeros, size_t n, size_t t){
+int find_t(int *numeros, size_t n, int t){
 	for (size_t i = 0; i < n; i++){
 		if (numeros[i] == t){
 			return 1;
@@ -78,34 +79,33 @@ int main(int argc, char *argv[]){
 	}
 	
 	size_t n = atoi(argv[1]);
-	size_t t = atoi(argv[2]);
+	int t = atoi(argv[2]);
 	
 	int *numeros;
 	numeros = new int[n];
 
 	fillRandom(numeros, n);
-	sort(numeros, n);
+	//sort(numeros, n);
 
-	std::chrono::time_point<std::chrono::system_clock> start, end;
+	/* SLOW METHOD */
+	auto start = std::chrono::system_clock::now();
+	int result;
+	result = slowFindSum(numeros, n, t);
+	auto end = std::chrono::system_clock::now();
+	std::chrono::duration<double> tempo = end - start;
+
+	std::cout << std::fixed;
+
+	std::cout << "- Slow method:\nElapsed time: " << tempo.count() << "s\n";
+
+	/* FAST METHOD */
 	start = std::chrono::system_clock::now();
-	int result = slowFindSum(numeros, n, t);
-	end = std::chrono::system_clock()::now();
+	result = findSum(numeros, n, t);
+	end = std::chrono::system_clock::now();
+	tempo = end - start;
 
-	int tempo = std::chrono::duration_cast<std::chrono::seconds>
-		(end - start).count();
+	std::cout << "- Fast method:\nElapsed time: " << tempo.count() << "s\n";
 
-	std::cout << "- Slow method:\nElapsed time: " << tempo << "s\n";
-
-
-	start = std::chrono::system_clock::now();
-	int result = findSum(numeros, n, t);
-	end = std::chrono::system_clock()::now();
-
-	int tempo = std::chrono::duration_cast<std::chrono::seconds>
-		(end - start).count();
-
-	std::cout << "- Fast method:\nElapsed time: " << tempo << "s\n";
-
-	//std::cout << result << std::endl;
+	std::cout << "result: " << result << std::endl;
 	delete[] numeros;
 }
