@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cstdlib>
 #include <chrono>
-#include <ctime>
 
 void fillRandom(int *numeros, size_t n){
 	for (size_t i = 0; i < n; i++){
@@ -106,6 +105,6 @@ int main(int argc, char *argv[]){
 
 	std::cout << "- Fast method:\nElapsed time: " << tempo.count() << "s\n";
 
-	std::cout << "result: " << result << std::endl;
+	std::cout << "\nResult: " << result << std::endl;
 	delete[] numeros;
 }
