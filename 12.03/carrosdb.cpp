@@ -1,24 +1,24 @@
 #include "carrosdb.h"
 
-/*CarrosDB::CarrosDB(int vMax):
-max(vMax){
-	total = 0;
-	carros = new Carro[max];
-}*/
+CarrosDB::CarrosDB(size_t vMax):
+	max(vMax){
+		total = 0;
+		carros = new Carro[vMax];
+	}
 
-int CarrosDB::getTotal(){
+size_t CarrosDB::getTotal(){
 	return total;
 }
 
-int CarrosDB::getMax(){
+size_t CarrosDB::getMax(){
 	return max;
 }
 
-int CarrosDB::buscarCarro(int ano){
+int CarrosDB::buscarCarro(unsigned short ano){
 	if (!total)
 		return 0;
 
-	for (int i = 0; i < total; ++i){
+	for (size_t i = 0; i < total; ++i){
 		if (carros[i].getAno() == ano)
 			return 1;
 	}
@@ -26,7 +26,7 @@ int CarrosDB::buscarCarro(int ano){
 	return 0;
 }
 
-void Carros::addCarro(Carro c){
+void CarrosDB::addCarro(Carro c){
 	carros[total++] = c;
 }
 

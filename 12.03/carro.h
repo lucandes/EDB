@@ -3,15 +3,14 @@
 
 #include <string>
 
-typedef struct{
-	std::string nome[20];
+struct Carro{
+	std::string nome;
 	unsigned short ano;
 
-	Carro(std::string vNome[20], int vAno):
-	nome(vNome), ano(vAno){};
-	
-	std::string Carro::getNome();
-	int Carro::getAno();
-}Carro;
+	Carro(std::string vNome, int vAno);
+	Carro();
+	std::string getNome();
+	int getAno();
+};
 
 #endif
